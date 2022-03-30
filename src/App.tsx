@@ -1,26 +1,39 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { useState } from "react";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
-function App() {
+import "./App.css";
+
+const App = () => {
+  const [password, setPassword] = useState("**********************");
+
+  const generatePassword = () => {
+    const randomPassword =
+      Math.random().toString(36).slice(2) + Math.random().toString(36).slice(2);
+
+    setPassword(randomPassword);
+
+    navigator.clipboard
+      .writeText(randomPassword)
+      .then(() => "Password copied to your clipboard")
+      .catch(() => "Error copying password to clipboard")
+      .then(toast);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="background">
+      <h1 className="heading">Generate a random password</h1>
+      <div className="wrapper">
+        <div className="password">{password}</div>
+        <button className="generate-password" onClick={generatePassword}>
+          Generate password
+        </button>
+      </div>
+
+      {/* adding toast container so that we can showcase the message */}
+      <ToastContainer />
     </div>
   );
-}
+};
 
 export default App;
